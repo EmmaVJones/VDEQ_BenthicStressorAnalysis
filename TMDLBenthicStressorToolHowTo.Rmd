@@ -1,0 +1,105 @@
+---
+title: "TMDL Benthic Stressor Tool How To"
+output: 
+  html_document:
+   theme: yeti
+---
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This page is designed to assist users with benthic and water chemistry data acquisition, TMDL stressor tool usage, and report template creation. The benthic stressor tool CDF results can be downloaded and saved as a HTML report. Additionally, a Microsoft Word stressor analysis report can be generated using data uploaded by the user. The report offers language common to most TMDL stressor documents as well as generates plots based on the user input data; however, the report requires organization based on the likely stressors to match the stressor tool conclusions. The TMDL Benthic Stressor Tool does not evaluate all data collected at stations or all of the possible stressors; however, the tool will evaluate common stressors to aquatic communities in Virginia. We encourage users to pull all available data (i.e. TSS, toxins, organic matter) to evaluate outside of the TMDL Benthic Stressor Tool using available literature.  
+
+**NOTE**: All **LOGI** queries are available as *Shared Reports* in the shared TMDL folder. To navigate to these queries, follow the file structure *Shared Reports* > *TMDL* > *Benthic Stressor Tool Data Pulls*.  
+
+###Stressor Analysis Data Acquisition
+####Stressor Tool Data
+#####*Field and Chemical data*  
+1.	In **LOGI**, run the *BSA Tool_Field Parameters By Station* query to retrieve field parameters data for a single station. Make sure you use the *Run and Hide Parameters* option when querying LOGI Data. Use default export option save results to Excel file (.xls).  
+2.  In **LOGI**, run the  *BSA Tool_BenStress Parameters By Station* query to retrieve chemical data for a single station. Make sure you use the *Run and Hide Parameters* option when querying LOGI Data. Use default export option save results to Excel file (.xls).  
+3.  In **Excel**, open the .xls files and File -> Save As an .xlsx file with an appropriate file name to indicate the data stored in each spreadsheet.  
+    + While in **Excel**, make sure all the data you expected to retrieve has been pulled by **LOGI**.  
+
+
+#####*Dissolved metals* 
+1.	In **LOGI**, run the  *BSA Tool_Dissolved Metals By Station* query to retrieve dissolved metals data for a single station. Make sure you use the *Run and Hide Parameters* option when querying LOGI Data. Use default export option save results to Excel file (.xls).  
+2.  In **Excel**, open the .xls file and File -> Save As an .xlsx file with an appropriate file name to indicate the data stored in each spreadsheet.  
+    + While in **Excel**, make sure all the data you expected to retrieve has been pulled by **LOGI**.  
+
+FAQ's:  
+
+* Query data for the most recent 2 years; however, dissolved metals data may be limited. If metals were collected within the past 10 years use to assess potential for metals contamination. Follow up monitoring may be necessary if there is suspicion of metal contamination.  
+* Query stations listed for the impairment unless data were collected at another station in preparation for TMDL. 
+* A watershed query can also be used to pull data for multiple stations on the impaired segment or analyze data up or downstream of the impaired area. However, the benthic tool will only analyze one station at a time so datasets queried by watershed will need to be separated by station in preparation for the benthic stressor tool. 
+* The *Data Organization Tab* of the Benthic Stressor Tool will allow you to upload the dissolved metals data and will generate a Metals CCU result. The *Dissolved Metals Tab* of the Benthic Stressor Tool will allow you to upload the dissolved metals data for further analysis against site specific water quality criteria calculated from hardness values.  
+
+
+#####*Relative Bed Stability Data* 
+1.	Download the latest copy of the **ProbMon Phab Database** [here][PhabDatabase].
+2.	Filter the *TMDL_summary_DATE* for your DEQ StationID. Note: The date following the TMDL_summary indicates the date the metrics were last run. If your site is not in the Phab database, contact the Probabilistic Monitoring Coordinator for information on site status.
+3.  Save the appropriate data to the same location as the raw LOGI query results, you will need to manually enter the LRBS2 value(s) for your site (on the appropriate sample date) on the *Data Organization Tab*.
+    + If LRBS data were collected more than 2 years ago, pull data and discuss data with Regional Biologist and Probabilistic Monitoring Program staff.
+    + The % embeddedness and % substrate category information can be found in this table.
+
+#####*Habitat Data*
+1.	Download the latest copy of the **Genus EDAS Access Database** [here][EDAS]. 
+    + Total habitat scores and comments are located in the *Habitat Parameters Stressor Tool* query. 
+2. Open the *Habitat Parameters Stressor Tool* in Design View. Change the Station to your station name. Save the query.
+3. Run the query and export the results to an Excel workbook.
+
+
+####Stressor Report Data
+
+#####*Macroinvertebrate Data*
+1.	In the **Genus EDAS Access Database**, navigate to Queries and select *Station Query*, right-click and select *Design View*. Enter the station ID in the *Criteria* row of the *Station ID* column. Save query. 
+2.	Navigate to the *Family Metrics VSCI Calculations*, right-click query and select open. 
+3.	Export to Excel workbook. 
+
+#####*Habitat Data*
+Habitat data previously queried from EDAS will be used again for the report function. The user need only browse to their saved habitat Excel workbook when uploading habitat data to the *Report Tab*.    
+    
+###TMDL Benthic Stressor Tool Usage
+####Data Organization Tab
+1. Follow the on screen prompts to upload the field, chemical (Benstress), and Total Habitat data using the appropriate buttons.
+2. Review all raw LOGI queries and manipulated data to ensure all data was retrieved and no data was lost throughout the joining processes.
+3. If available, upload the dissolved metals query results to calculate the Metals CCU value(s) for the station. Copy/paste the value(s) into the appropriate sample date in the joined field, chemistry (Benstress), and Total Habitat table.
+4. If available, copy/paste the LRBS query results into the appropriate sample date in the joined field, chemistry (Benstress), and Total Habitat table.
+5. Once all available data is entered for a particular site, download a flat file of the combined data for your records and to upload into the tool by clicking the *CSV* button on the top left of the joined field, chemistry (Benstress), and Total Habitat table.
+    + Only one station’s data can be evaluated by the tool at a time. If there are multiple stations along the impaired segment, each station will need its own environmental datasheet to be run through the tool separately.
+    + It is recommended that users only use the *Data Organization Tab* one time per site because the datasets only need to be organized once. All future analysis runs for the StationID in question can be performed from the downloaded .csv generated by the joined field, chemistry (Benstress), and Total Habitat table.
+
+####Data Upload Tab
+1.	Upload the combined environmental dataset generated by the *Data Organization Tab*.
+    + A template is provided for download if you do not wish to use the app for data manipulation steps.
+2.	Select the appropriate Ecoregion, Basin, and Stream Order
+    + If this information is not known, check in EDAS form: *Stream Bioassessment Data Entry Form* or turn on the appropriate layer in the Statewide Map Tab.
+    
+####Data Summary Tab    
+1.	Navigate through each parameter tab to analyze data by statewide occurrence and user input subpopulations. All CDF plots update with average and median results plotted on each subpopulation dataset.
+2.  Select *Generate Report* to create an HTML summary report of all input data and CDF tablular and plot results. This may take a few minutes to create. 
+    + If you need a PDF version of the report, open the HTML report, right-click and select save as PDF. All interactive features of the HTML report will be lost through the conversion process.
+
+####Statewide Map Tab    
+1.  Utilize the drop down menu and checkboxes to visualize parameter stressor categories statewide. The user input site can be plotted on the map by clicking the appropriate checkbox.
+2.  In the top left corner, hover over the layers button to turn on/off Ecoregion and Superbasin polygons. Basemaps can also be changed in this area.
+
+####Dissolved Metals Tab    
+1.	Upload the reorganized dissolved metals dataset generated by the *Data Organization Tab*.
+    + A template is provided for download if you do not wish to use the app for data manipulation steps.
+2.  A MetalsCCU is automatically calculated if you have not used the *Data Organization Tab* or Metals CCU subtab under the Data Upload tab to calculate MetalsCCU.
+    + This tab can handle multiple stations for analysis and MetalsCCU calculation.
+3.  The *Data Summary* tab offers a drop down to scroll through individual sites. Dissolved metals acute, chronic, and Public Water Supply (PWS) criteria are calculated based on the individual sample hardness, where applicable, and all measures that are not supporting the criteria are highlighted in the table.
+4.  The dissolved metal drop down displays a CDF of the selected metal and plots the metal measure of the selected StationID. You can turn on/off the associated criteria by clicking the checkbox input.
+
+
+###Rmarkdown Stressor Analysis Report
+####Report Tab  
+A stressor analysis report for benthic impairments can be created using the *Report* tab. This report provides TMDL coordinators or biologists a template for developing in-house stressor analyses. Example text is provided that can be replicated or edited. Standard figures are generated using data uploaded by the user but will need to be reorganized based on the interpretations of the stressor tool results. Summary statistics are generated based on the data uploaded by the user. Uploaded data should be for one station only. Benthic macroinvertebrate figures are also generated along with example text. Please refer to EDAS queries for taxa-specific analyses. If you would like to tailor figures to include more than one station, contact Rmarkdown creators: Lucy Baker (lucy.baker@deq.virginia.gov) and Emma Jones (emma.jones@deq.virginia.gov). 
+
+1.	Upload macroinvertebrate dataset pulled from EDAS (See *Stressor Report Data: Macroinvertebrate Data* section )  
+2.	Upload habitat dataset pulled from EDAS (See *Stressor Report Data: Habitat Data* section)  
+3.	Enter the stream name associated with the DEQ StationID. 
+4.	Select *Generate Report*. The output is a Microsoft Word document.  
+5.	Save document and edit the document as appropriate in Microsoft Word.  
+
+
+
+
+[PhabDatabase]: http://www.deq.virginia.gov/Programs/Water/WaterQualityInformationTMDLs/WaterQualityMonitoring/ProbabilisticMonitoring/ProbMonDataSources.aspx
+[EDAS]: http://www.deq.virginia.gov/Programs/Water/WaterQualityInformationTMDLs/WaterQualityMonitoring/ProbabilisticMonitoring/ProbMonDataSources.aspx

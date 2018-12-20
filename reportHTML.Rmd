@@ -1,0 +1,232 @@
+---
+title: "Benthic Stressor Analysis Report: CDF Statistics and Plots"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    theme: yeti
+params:
+  userDataRMD: 'NULL'
+---
+
+```{r cdfplotfunction, echo=F}
+# CDF plot function for RMD output
+  cdfRMDplot <- function(parameter,subsetparameter,percentilesDataset,indicator,CDFsettings){
+    cdfsubset <- subFunction(cdfdata,subsetparameter,indicator)
+    avg1 <- as.numeric(filter(percentilesDataset,Parameter==parameter & Statistic==indicator)[,3])
+    avg <- subFunction2(cdfsubset,avg1)
+    med1 <- as.numeric(filter(percentilesDataset,Parameter==parameter & Statistic==indicator)[,4]) 
+    med <- subFunction2(cdfsubset,med1)
+    m <- max(cdfsubset$NResp)
+    p1 <- ggplot(cdfsubset, aes(x=Value,y=Estimate.P)) + 
+      labs(x=paste(parameter,unique(cdfsubset$units),sep=" "),y="Percentile") +
+      ggtitle(paste(indicator,parameter,"\nPercentile Graph ( n=",m,")",sep=" ")) + 
+      theme(plot.title = element_text(hjust=0.5,face='bold',size=15)) +
+      theme(axis.title = element_text(face='bold',size=12))+
+      
+      CDFsettings  +
+    
+      geom_point() +
+      geom_point(data=avg,color='orange',size=4) + geom_text(data=avg,label='Average',hjust=1.2) +
+      geom_point(data=med,color='gray',size=4)+ geom_text(data=med,label='Median',hjust=1.2) 
+    return(p1)
+  }
+```
+
+
+### User Input Data
+```{r inputData,echo=F}
+DT::datatable(params[['userDataRMD']][['stats_wTemp']],rownames = F,options=list(scrollX = TRUE))
+```
+
+### Composite Statistics
+```{r compositeStatsTable,echo=F}
+goodtobad <- c("gray","#0072B2","#009E73","#F0E442","firebrick")
+badtogood <- c("gray","firebrick","#F0E442", "#009E73","#0072B2")
+
+DT::datatable(params[['userDataRMD']][['stats']],rownames = F,options=list(scrollX = TRUE))%>%
+  formatStyle(names(params[['userDataRMD']][['stats']])[2], 
+              backgroundColor=styleInterval(c(0,6,9),c("gray","#F0E442","#009E73","#F0E442")))%>%
+  formatStyle(names(params[['userDataRMD']][['stats']])[3], 
+              backgroundColor = styleInterval(c(0,7,8,10),badtogood)) %>%
+      formatStyle(names(params[['userDataRMD']][['stats']])[4],
+                  backgroundColor = styleInterval(c(0,0.5,1,2),goodtobad))%>%
+      formatStyle(names(params[['userDataRMD']][['stats']])[5], 
+                  backgroundColor = styleInterval(c(0,0.02,0.05,0.1),goodtobad))%>%
+      formatStyle(names(params[['userDataRMD']][['stats']])[6], 
+                  backgroundColor = styleInterval(c(0,100,130,150),badtogood))%>%
+      formatStyle(names(params[['userDataRMD']][['stats']])[7],
+                  backgroundColor = styleInterval(c(-3,-1.5,-1,-0.5,0.5),
+                                                  c("gray","firebrick","#F0E442","#009E73","#0072B2","#F0E442")))%>%
+      formatStyle(names(params[['userDataRMD']][['stats']])[8], 
+                  backgroundColor = styleInterval(c(0,0.75,1.5,2.0),goodtobad))%>%
+      formatStyle(names(params[['userDataRMD']][['stats']])[9], 
+                  backgroundColor = styleInterval(c(0,250,350,500),goodtobad))%>%
+      formatStyle(names(params[['userDataRMD']][['stats']])[10], 
+                  backgroundColor = styleInterval(c(0,100,250,350),goodtobad))%>%
+      formatStyle(names(params[['userDataRMD']][['stats']])[11], 
+                  backgroundColor = styleInterval(c(0,10,25,75),goodtobad))%>%
+      formatStyle(names(params[['userDataRMD']][['stats']])[12], 
+                  backgroundColor = styleInterval(c(0,10,25,50),goodtobad))%>%
+      formatStyle(names(params[['userDataRMD']][['stats']])[13], 
+                  backgroundColor = styleInterval(c(0,1,2,10),goodtobad))%>%
+      formatStyle(names(params[['userDataRMD']][['stats']])[14], 
+                  backgroundColor = styleInterval(c(0,7,10,20),goodtobad))
+```
+
+### Individual Parameter Statistics
+```{r individualParameterStats,echo=F}
+together <- rbind(cbind(Parameter='pH',params[['userDataRMD']][["percentiles"]][["pH"]]),
+                  cbind(Parameter='DO',params[['userDataRMD']][["percentiles"]][["DO"]]),
+                  cbind(Parameter='TN',params[['userDataRMD']][["percentiles"]][["TN"]]),
+                  cbind(Parameter='TP',params[['userDataRMD']][["percentiles"]][["TP"]]),
+                  cbind(Parameter='Total Habitat',params[['userDataRMD']][["percentiles"]][["TotHab"]]),
+                  cbind(Parameter='LRBS',params[['userDataRMD']][["percentiles"]][["LRBS"]]),
+                  cbind(Parameter='Metals CCU',params[['userDataRMD']][["percentiles"]][["MetalsCCU"]]),
+                  cbind(Parameter='Specific Conductivity',params[['userDataRMD']][["percentiles"]][["SpCond"]]),
+                  cbind(Parameter='Total Dissolved Solids',params[['userDataRMD']][["percentiles"]][["TDS"]]),
+                  cbind(Parameter='Dissolved Sulfate',params[['userDataRMD']][["percentiles"]][["DSulfate"]]),
+                  cbind(Parameter='Dissolved Chloride',params[['userDataRMD']][["percentiles"]][["DChloride"]]),
+                  cbind(Parameter='Dissolved Potassium',params[['userDataRMD']][["percentiles"]][["DPotassium"]]),
+                  cbind(Parameter='Dissolved Sodium',params[['userDataRMD']][["percentiles"]][["DSodium"]]))
+
+DT::datatable(together,rownames = F,options=list(dom = 't',pageLength=nrow(together),scrollY = "600px"))
+```
+
+### Statewide CDF Plots
+
+#### pH
+```{r pHplot,echo=F,fig.height=10,fig.width=15}
+gridExtra::grid.arrange(cdfRMDplot('pH','pH',together,'Virginia',pHsettingsCDF),
+                        cdfRMDplot('pH','pH',together,params[['userDataRMD']][['userInputs']][['Basin']],pHsettingsCDF),
+                        cdfRMDplot('pH','pH',together,params[['userDataRMD']][['userInputs']][['Ecoregion']],pHsettingsCDF),
+                        cdfRMDplot('pH','pH',together,params[['userDataRMD']][['userInputs']][['StreamOrder']],pHsettingsCDF))
+```
+
+<hr></hr>
+#### Dissolved Oxygen
+```{r DOplot,echo=F,fig.height=10,fig.width=15}
+gridExtra::grid.arrange(cdfRMDplot('DO','DO',together,'Virginia',DOsettingsCDF),
+                        cdfRMDplot('DO','DO',together,params[['userDataRMD']][['userInputs']][['Basin']],DOsettingsCDF),
+                        cdfRMDplot('DO','DO',together,params[['userDataRMD']][['userInputs']][['Ecoregion']],DOsettingsCDF),
+                        cdfRMDplot('DO','DO',together,params[['userDataRMD']][['userInputs']][['StreamOrder']],DOsettingsCDF))
+```
+<hr></hr>
+#### Total Nitrogen
+```{r TNplot,echo=F,fig.height=10,fig.width=15}
+gridExtra::grid.arrange(cdfRMDplot('TN','TN',together,'Virginia',TNsettingsCDF),
+                        cdfRMDplot('TN','TN',together,params[['userDataRMD']][['userInputs']][['Basin']],TNsettingsCDF),
+                        cdfRMDplot('TN','TN',together,params[['userDataRMD']][['userInputs']][['Ecoregion']],TNsettingsCDF),
+                        cdfRMDplot('TN','TN',together,params[['userDataRMD']][['userInputs']][['StreamOrder']],TNsettingsCDF))
+```
+<hr></hr>
+#### Total Phosphorus
+```{r TPplot,echo=F,fig.height=10,fig.width=15}
+gridExtra::grid.arrange(cdfRMDplot('TP','TP',together,'Virginia',TPsettingsCDF),
+                        cdfRMDplot('TP','TP',together,params[['userDataRMD']][['userInputs']][['Basin']],TPsettingsCDF),
+                        cdfRMDplot('TP','TP',together,params[['userDataRMD']][['userInputs']][['Ecoregion']],TPsettingsCDF),
+                        cdfRMDplot('TP','TP',together,params[['userDataRMD']][['userInputs']][['StreamOrder']],TPsettingsCDF))
+```
+<hr></hr>
+
+#### Total Habitat
+```{r totHabPlot,echo=F,fig.height=10,fig.width=15}
+gridExtra::grid.arrange(cdfRMDplot('Total Habitat','TotalHabitat',together,'Virginia',TotHabsettingsCDF),
+                        cdfRMDplot('Total Habitat','TotalHabitat',together,
+                                   params[['userDataRMD']][['userInputs']][['Basin']],TotHabsettingsCDF),
+                        cdfRMDplot('Total Habitat','TotalHabitat',
+                                   together,params[['userDataRMD']][['userInputs']][['Ecoregion']],TotHabsettingsCDF),
+                        cdfRMDplot('Total Habitat','TotalHabitat',
+                                   together,params[['userDataRMD']][['userInputs']][['StreamOrder']],TotHabsettingsCDF))
+```
+<hr></hr>
+
+#### LRBS
+```{r LRBSplot,echo=F,fig.height=10,fig.width=15}
+gridExtra::grid.arrange(cdfRMDplot('LRBS','LRBS',together,'Virginia',LRBSsettingsCDF),
+                        cdfRMDplot('LRBS','LRBS',together,params[['userDataRMD']][['userInputs']][['Basin']],LRBSsettingsCDF),
+                        cdfRMDplot('LRBS','LRBS',together,params[['userDataRMD']][['userInputs']][['Ecoregion']],LRBSsettingsCDF),
+                        cdfRMDplot('LRBS','LRBS',together,params[['userDataRMD']][['userInputs']][['StreamOrder']],LRBSsettingsCDF))
+```
+<hr></hr>
+
+#### Metals CCU
+```{r metalsCCUplot,echo=F,fig.height=10,fig.width=15}
+gridExtra::grid.arrange(cdfRMDplot('Metals CCU','MetalsCCU',together,'Virginia',MetalsCCUsettingsCDF),
+                        cdfRMDplot('Metals CCU','MetalsCCU',together,
+                                   params[['userDataRMD']][['userInputs']][['Basin']],MetalsCCUsettingsCDF),
+                        cdfRMDplot('Metals CCU','MetalsCCU',together,
+                                   params[['userDataRMD']][['userInputs']][['Ecoregion']],MetalsCCUsettingsCDF),
+                        cdfRMDplot('Metals CCU','MetalsCCU',together,
+                                   params[['userDataRMD']][['userInputs']][['StreamOrder']],MetalsCCUsettingsCDF))
+```
+<hr></hr>
+
+#### Specific Conductivity
+```{r SpCondplot,echo=F,fig.height=10,fig.width=15}
+gridExtra::grid.arrange(cdfRMDplot('Specific Conductivity','SpCond',together,'Virginia',SpCondsettingsCDF),
+                        cdfRMDplot('Specific Conductivity','SpCond',together,
+                                   params[['userDataRMD']][['userInputs']][['Basin']],SpCondsettingsCDF),
+                        cdfRMDplot('Specific Conductivity','SpCond',together,
+                                   params[['userDataRMD']][['userInputs']][['Ecoregion']],SpCondsettingsCDF),
+                        cdfRMDplot('Specific Conductivity','SpCond',together,
+                                   params[['userDataRMD']][['userInputs']][['StreamOrder']],SpCondsettingsCDF))
+```
+<hr></hr>
+
+#### Total Dissolved Solids
+```{r TDSplot,echo=F,fig.height=10,fig.width=15}
+gridExtra::grid.arrange(cdfRMDplot('TDS','TDS',together,'Virginia',TDSsettingsCDF),
+                        cdfRMDplot('TDS','TDS',together,params[['userDataRMD']][['userInputs']][['Basin']],TDSsettingsCDF),
+                        cdfRMDplot('TDS','TDS',together,params[['userDataRMD']][['userInputs']][['Ecoregion']],TDSsettingsCDF),
+                        cdfRMDplot('TDS','TDS',together,params[['userDataRMD']][['userInputs']][['StreamOrder']],TDSsettingsCDF))
+```
+<hr></hr>
+
+#### Dissolved Sulfate
+```{r DSulfateplot,echo=F,fig.height=10,fig.width=15}
+gridExtra::grid.arrange(cdfRMDplot('Dissolved Sulfate','DSulfate',together,'Virginia',DSulfatesettingsCDF),
+                        cdfRMDplot('Dissolved Sulfate','DSulfate',together,
+                                   params[['userDataRMD']][['userInputs']][['Basin']],DSulfatesettingsCDF),
+                        cdfRMDplot('Dissolved Sulfate','DSulfate',together,
+                                   params[['userDataRMD']][['userInputs']][['Ecoregion']],DSulfatesettingsCDF),
+                        cdfRMDplot('Dissolved Sulfate','DSulfate',together,
+                                   params[['userDataRMD']][['userInputs']][['StreamOrder']],DSulfatesettingsCDF))
+```
+<hr></hr>
+
+#### Dissolved Chloride
+```{r DChlorideplot,echo=F,fig.height=10,fig.width=15}
+gridExtra::grid.arrange(cdfRMDplot('Dissolved Chloride','DChloride',together,'Virginia',DChloridesettingsCDF),
+                        cdfRMDplot('Dissolved Chloride','DChloride',together,
+                                   params[['userDataRMD']][['userInputs']][['Basin']],DChloridesettingsCDF),
+                        cdfRMDplot('Dissolved Chloride','DChloride',together,
+                                   params[['userDataRMD']][['userInputs']][['Ecoregion']],DChloridesettingsCDF),
+                        cdfRMDplot('Dissolved Chloride','DChloride',together,
+                                   params[['userDataRMD']][['userInputs']][['StreamOrder']],DChloridesettingsCDF))
+```
+<hr></hr>
+
+#### Dissolved Potassium
+```{r DPotassiumplot,echo=F,fig.height=10,fig.width=15}
+gridExtra::grid.arrange(cdfRMDplot('Dissolved Potassium','DPotassium',together,'Virginia',DPotassiumsettingsCDF),
+                        cdfRMDplot('Dissolved Potassium','DPotassium',together,
+                                   params[['userDataRMD']][['userInputs']][['Basin']],DPotassiumsettingsCDF),
+                        cdfRMDplot('Dissolved Potassium','DPotassium',together,
+                                   params[['userDataRMD']][['userInputs']][['Ecoregion']],DPotassiumsettingsCDF),
+                        cdfRMDplot('Dissolved Potassium','DPotassium',together,
+                                   params[['userDataRMD']][['userInputs']][['StreamOrder']],DPotassiumsettingsCDF))
+```
+<hr></hr>
+
+#### Dissolved Sodium
+```{r DSodiumplot,echo=F,fig.height=10,fig.width=15}
+gridExtra::grid.arrange(cdfRMDplot('Dissolved Sodium','DSodium',together,'Virginia',DSodiumsettingsCDF),
+                        cdfRMDplot('Dissolved Sodium','DSodium',together,
+                                   params[['userDataRMD']][['userInputs']][['Basin']],DSodiumsettingsCDF),
+                        cdfRMDplot('Dissolved Sodium','DSodium',together,
+                                   params[['userDataRMD']][['userInputs']][['Ecoregion']],DSodiumsettingsCDF),
+                        cdfRMDplot('Dissolved Sodium','DSodium',together,
+                                   params[['userDataRMD']][['userInputs']][['StreamOrder']],DSodiumsettingsCDF))
+```

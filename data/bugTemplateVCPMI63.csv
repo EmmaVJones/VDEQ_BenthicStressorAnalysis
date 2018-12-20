@@ -1,0 +1,3 @@
+BenSampID,StationID,StreamName,Location,Basin,EcoregionCode,CollDate,CollMeth,Target_Count,RepNum,TotTaxa,HBI,EPTTax,%Ephem,%PT - Hydropsychidae,%5Dom,%ClngP-HS,Richness Score,RichnessFinal,HBIScore,HBIFinal,EPT Score,EPTFinal,EPHEM,PT-H,Pct5DOM,PctClng-HS,CPMI63+CHOWAN
+PARRTRO21R110,7-PAR003.09,Parker Creek (Recovery),10 m above Rt. 744 bridge,Chesapeake  Bay/Small Coastal,63f,5/21/2009,MACS,110,1,8,6.3,,0,,100,0,12.75167785,12.75167785,44,44,0,0,0,0,0,0,8.10738255
+PARRTRO22R110,7-PAR003.09,Parker Creek (Recovery),10 m above Rt. 744 bridge,Chesapeake  Bay/Small Coastal,63f,10/28/2009,MACS,110,1,7,6.018348624,1,0,1.818181818,100,1.818181818,6.040268456,6.040268456,55.26605505,55.26605505,12.5,12.5,0,22.172949,0,9.722897423,15.10030999
