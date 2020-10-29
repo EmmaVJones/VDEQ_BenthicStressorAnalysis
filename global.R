@@ -1,13 +1,15 @@
 library(shiny)
 library(leaflet)
-library(mapview)
+#library(mapview)
 library(tidyverse)
-library(rgdal)
+#library(rgdal)
+library(sf)
 library(DT)
 library(reshape2)
 library(taRifx)
 library(knitr)
 library(readxl)
+#library(xlsx) #rJava issue so exporting templates as .csv's still
 
 # Local data locations
 VAstationselect <- readRDS('data/VAstationselect_May2018.RDS')
@@ -16,10 +18,10 @@ cdfdata <- readRDS('data/cdfData_May2018.RDS') ### UPDATED CDF DATA AFTER 2018IR
 template <- read.csv('data/templateGIS.csv')
 template_metals <- read.csv('data/template_metals.csv')
 #metalsCDF <- readRDS('data/metalsCDF_March2017Update.RDS')
-bugTemplate <- read.csv('data/bugTemplate.csv')
-bugTemplateVCPMI63 <- read.csv('data/bugTemplateVCPMI63.csv')
-bugTemplateVCPMI65 <- read.csv('data/bugTemplateVCPMI65.csv')
-habitatTemplate <- read.csv('data/habitatTemplate.csv')
+bugTemplate <- read_excel('data/Family Metrics VSCI Calculation.xlsx')
+bugTemplateVCPMI63 <- read_excel('data/Family Metrics VCPMI63+Chowan_MRD.xlsx')
+bugTemplateVCPMI65 <- read_excel('data/Family Metrics VCPMI65-Chowan_MRD.xlsx')
+habitatTemplate <- read_excel('data/Habitat Parameters Stressor Tool.xlsx')
 
 # Bring in custom plotting functions for report
 source('global_stressorPlotFunctions.R')
@@ -314,17 +316,19 @@ metalsCriteria <- function(Hardness){
 # Metals CCU Calculation
 metalsCCUcalc <- function(Hardness,Aluminum,Arsenic,Cadmium,Chromium,Copper,Lead,Nickel,Selenium,Zinc){
   criteriaHardness <- ifelse(Hardness<25,25,ifelse(Hardness>400,400,Hardness))
-  AluminumEPAChronic <- Aluminum/150
+  #AluminumEPAChronic <- Aluminum/150 # Larry Bonus Metal
   ArsenicChronic <- Arsenic/150
-  CadmiumChronic <- Cadmium/(exp(0.7852*(log(criteriaHardness))-3.49))
+  #CadmiumChronic <- Cadmium/(exp(0.7852*(log(criteriaHardness))-3.49)) # Larry Bonus Metal
   ChromiumChronic <- Chromium/((exp(0.819*(log(criteriaHardness))+0.6848))*0.86)
   CopperChronic <- Copper/((exp(0.8545*(log(criteriaHardness))-1.702))*0.96)
   LeadChronic <- Lead/((exp(1.273*(log(criteriaHardness))-3.259)))
   NickelChronic <- Nickel/((exp(0.846*(log(criteriaHardness))-0.884))*0.997)
-  SeleniumChronic <- Selenium/5
+  #SeleniumChronic <- Selenium/5 # Larry Bonus Metal
   ZincChronic <- Zinc/((exp(0.8473*(log(criteriaHardness))+0.884))*0.986)
-  return(sum(AluminumEPAChronic,ArsenicChronic,CadmiumChronic,ChromiumChronic,CopperChronic,LeadChronic,
-             NickelChronic,SeleniumChronic,ZincChronic))
+  #return(sum(AluminumEPAChronic,ArsenicChronic,CadmiumChronic,ChromiumChronic,CopperChronic,LeadChronic,
+  #           NickelChronic,SeleniumChronic,ZincChronic))
+  return(sum(ArsenicChronic,ChromiumChronic,CopperChronic,LeadChronic,
+             NickelChronic,ZincChronic))
 }
 
 # Metals CCU Calculation for dataframes

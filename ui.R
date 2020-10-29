@@ -1,5 +1,6 @@
 source('global.R')
-source('global_appModules.R')
+#source('global_appModules.R')
+source('global_appModules_new.R')
 source('global_logiManipulationModule.R')
 source('global_finalReportModule.R')
 
@@ -84,10 +85,10 @@ shinyUI(fluidPage(theme="yeti.css",
                                                  DT::dataTableOutput('inputTable'),
                                                  hr(),
                                                  h3("Summary Statistics"),
-                                                 div(style = 'overflow-x: scroll',tableOutput("summaryStats"))),
-                                        tabPanel("Metals CCU Analysis, Single Site",
-                                                 metalCCUsingleSiteUI('metalCCUsingleSite')
-                                                 )))),
+                                                 div(style = 'overflow-x: scroll',tableOutput("summaryStats")))#,
+                                        #tabPanel("Metals CCU Analysis, Single Site",
+                                        #         metalCCUsingleSiteUI('metalCCUsingleSite')) # REMOVED 10/29/2020 TO AVOID CONFUSION WITH LARRY MCCU CALCULATION
+                                                 ))),
                              tabPanel("Data Summary",
                                       column(12,tabsetPanel(
                                         tabPanel("Composite Table",br(),br(),

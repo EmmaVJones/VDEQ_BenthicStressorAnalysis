@@ -309,8 +309,8 @@ DSodiumRiskTable <- list(
 )
 
 
-# Only report 2 decimal places
-options(digits=2)
+# Only report 3 decimal places
+options(digits=3)
 ```
 
 ```{r readInData,message=FALSE}

@@ -1,13 +1,16 @@
 source('global.R')
-source('global_appModules.R')
+#source('global_appModules.R')
+source('global_appModules_new.R')
 source('global_logiManipulationModule.R')
 source('global_finalReportModule.R')
 
 
 
 # Upload GIS data here to avoid uploading it twice (if it were in the global.R file)
-eco <- readOGR('data','vaECOREGIONlevel3__proj84')
-supaB <- readOGR('data','VAsuperbasins_proj84')
+#eco <- readOGR('data','vaECOREGIONlevel3__proj84')
+#supaB <- readOGR('data','VAsuperbasins_proj84')
+eco <- st_read('data/vaECOREGIONlevel3__proj84.shp')
+supaB <- st_read('data/VAsuperbasins_proj84.shp')
 
 options(DT.options = list(dom = 't'))
 

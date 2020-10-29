@@ -15,6 +15,8 @@ finalReportUI <- function(id){
         your data structure."))),
                column(9,
                       p('In order to format your report correctly, please fill in the fields provided below.'),
+                      helpText('The templates are downloaded as .csv due to Java error downloading .xlsx files. Please 
+                               convert files back to .xlsx prior to uploading to this page for full report functionality.'),
                       downloadButton(ns('downloadTemplate_bugs'),"Download bug template (VSCI)"),
                       downloadButton(ns('downloadTemplate_bugsVCPMI63'),"Download bug template (VCPMI63+Chowan)"),
                       downloadButton(ns('downloadTemplate_bugsVCPMI65'),"Download bug template (VCPMI65-Chowan)"),
