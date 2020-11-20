@@ -321,7 +321,7 @@ metalsCCUcalc <- function(Hardness,Aluminum,Arsenic,Cadmium,Chromium,Copper,Lead
   #CadmiumChronic <- Cadmium/(exp(0.7852*(log(criteriaHardness))-3.49)) # Larry Bonus Metal
   ChromiumChronic <- Chromium/((exp(0.819*(log(criteriaHardness))+0.6848))*0.86)
   CopperChronic <- Copper/((exp(0.8545*(log(criteriaHardness))-1.702))*0.96)
-  LeadChronic <- Lead/((exp(1.273*(log(criteriaHardness))-3.259)))
+  LeadChronic <- Lead/((exp(1.273*(log(criteriaHardness))-3.259))*(1.46203-(log(criteriaHardness)*(0.145712))))
   NickelChronic <- Nickel/((exp(0.846*(log(criteriaHardness))-0.884))*0.997)
   #SeleniumChronic <- Selenium/5 # Larry Bonus Metal
   ZincChronic <- Zinc/((exp(0.8473*(log(criteriaHardness))+0.884))*0.986)
