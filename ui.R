@@ -188,7 +188,7 @@ shinyUI(fluidPage(theme="yeti.css",
                                                                             statewide percentiles.")),
                                                             column(5,
                                                                    dissolvedMetalsUI('dMetalsPlots'))),
-                                                            helpText("Criteria are adjusted based on Hardness measure, as required."),
+                                                            # helpText("Criteria are adjusted based on Hardness measure, as required."),
                                                             DT::dataTableOutput('colors_metals'),br(),br()))))),
                              tabPanel('Report',
                                       finalReportUI('report'))

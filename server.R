@@ -277,20 +277,23 @@ shinyServer(function(input, output, session) {
     return(percentilesDissolvedMetals2)})
   
   
+  # Commented out bc incorrect calculations 
+  
   output$colors_metals <- DT::renderDataTable({
     if(is.null(percentilesDissolvedMetals2()))
       return(NULL)
-    DT::datatable(percentilesDissolvedMetals2(),extensions = 'Buttons', escape=F, rownames = F,
-                  colnames = c('Dissolved Metal','Measure','Statewide Percentile','Acute Criteria',
-                               'Chronic Criteria',"PWS Criteria",'Chronic Assessment','Acute Assessment','PWS Assessment'),
+    DT::datatable(percentilesDissolvedMetals2() %>% dplyr::select(Dissolved_Metal:Statewide_Percentile),
+                  extensions = 'Buttons', escape=F, rownames = F,
+                   colnames = c('Dissolved Metal','Measure','Statewide Percentile'),#,'Acute Criteria',
+                  #              'Chronic Criteria',"PWS Criteria",'Chronic Assessment','Acute Assessment','PWS Assessment'),
                   options=list(scrollX = TRUE,scrollY = "600px",pageLength=20,
                     dom='Bt', #'Bfrtip',
                     buttons=list('copy',
                                  list(extend='csv',filename=paste(input$metalsSites_,'StatewideDissolvedMetalsAnalysis_',Sys.Date(),sep='')),
-                                 list(extend='excel',filename=paste(input$metalsSites_,'StatewideDissolvedMetalsAnalysis_',Sys.Date(),sep='')))))%>%
-      formatStyle('ChronicAssessment',backgroundColor=styleEqual(c('No Exceedance','Exceedance'),c('white','red'))) %>%
-      formatStyle('AcuteAssessment',backgroundColor=styleEqual(c('No Exceedance','Exceedance'),c('white','red'))) %>%
-      formatStyle('PWSAssessment',backgroundColor=styleEqual(c('No Exceedance','Exceedance'),c('white','red')))
+                                 list(extend='excel',filename=paste(input$metalsSites_,'StatewideDissolvedMetalsAnalysis_',Sys.Date(),sep=''))))) #%>%
+      # formatStyle('ChronicAssessment',backgroundColor=styleEqual(c('No Exceedance','Exceedance'),c('white','red'))) %>%
+      # formatStyle('AcuteAssessment',backgroundColor=styleEqual(c('No Exceedance','Exceedance'),c('white','red'))) %>%
+      # formatStyle('PWSAssessment',backgroundColor=styleEqual(c('No Exceedance','Exceedance'),c('white','red')))
     })
   
   callModule(dissolvedMetals,'dMetalsPlots',inputFile_metals,

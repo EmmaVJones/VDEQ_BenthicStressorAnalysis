@@ -237,6 +237,7 @@ VSCIsettingsCDF <- list(
 
 
 # Return percentile 
+#statsTable <- stats; parameter <- "pH";userBasin<- Basin; userEco <- Ecoregion; userOrder<- StreamOrder; stationName<- unique(siteData$StationID)
 percentileTable <- function(statsTable,parameter,userBasin,userEco,userOrder,stationName){
   out <- statsTable%>%select_("Statistic",parameter)%>% spread_("Statistic",parameter)%>%
     mutate(Statistic=stationName)%>%select(Statistic,everything())
